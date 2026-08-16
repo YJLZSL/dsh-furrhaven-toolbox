@@ -1,4 +1,4 @@
-﻿# Furrhaven · DSH 附属插件（即安即用，即删）
+# Furrhaven · DSH 附属插件（即安即用，即删）
 
 > 版本：v1.3.0 | 2026-08-16 | 定位：**DeepSeek Harness 附属插件**，安装后自动获得角色卡多平台写卡工具面与流程技能；卸载即清理。
 > 面向人群：普通 DSH 用户 / 角色卡作者 / 想在 AI 里直接写卡的人。
@@ -11,6 +11,16 @@ Furrhaven 是一套「卡体写作 + 世界书 + 组件 + 正则 + 多平台导�
 - 自动注册 **`furrhaven-card` 技能**：写卡流程纪律 + 官方 `changeMsg`/`getMsgContent` 组件思路 + 防 AI 味提示包
 - 卸载即删：工具、技能、bundle 层全部随插件 dispose 清理
 - 底层是独立 Python 引擎 `furrhaven-core`（`fh` CLI），DSH 插件只是薄封装
+
+## 一键安装（30 秒）
+
+```sh
+# 下载 Release 里的 dsh-external-dsh-fh-tools-1.3.0.tgz 后：
+dsh plugin --profile web add .\dsh-external-dsh-fh-tools-1.3.0.tgz
+```
+
+> 没有 `dsh` 命令时，用 DSH 超级注入器：`dev_inject_plugin <仓库>\dsh\plugin\fh-tools`。
+> 卸载：`dsh plugin --profile web remove dsh-fh-tools` 或 `dev_uninject_plugin dsh-fh-tools`。
 
 ## 小白一键提示词（复制给任意 AI）
 
@@ -27,6 +37,30 @@ Furrhaven 是一套「卡体写作 + 世界书 + 组件 + 正则 + 多平台导�
 6. 最后用 fh check 和 fh build --platform all 完成门禁与构建。
 如果不知道插件路径，先浏览本仓库根目录，找到 dsh/plugin/fh-tools 或 release 里的 tgz。
 ```
+
+## Agent 预设（可选）
+
+本项目还带一个 DSH agent preset：**Card Forge（Furrhaven）**，适合让 AI 进入“写卡专家”模式。
+
+```powershell
+# 安装到用户预设目录（新会话即可选择）
+Copy-Item .\dsh\preset\card-forge $env:USERPROFILE\.dsh\.agent-presets\ -Recurse -Force
+# 使用：在 DSH 新建会话时选择 preset = Card Forge（Furrhaven）
+```
+
+## 用户自定义空间（平台可能随时变）
+
+平台口径/规则随时可能变化，全部允许用户覆盖，不写死代码：
+
+| 自定义项 | 位置 | 说明 |
+|---------|------|------|
+| 平台开关/规则包/模型接口 | 项目根 `fh.config.yaml` | 每个项目独立 |
+| 平台限额（FD/FC/FB） | 项目根 `platforms.local.yaml` | 平台改版时用 `fh calibrate fd` 探针实测回填 |
+| 题材规则 | `fh.config.yaml → rulepacks` | `genre-furry` 等 opt-in |
+| 专属词/死物比喻表 | `fh.config.yaml → lexicon` | 跨卡雷区、AI 味规则 |
+| 世界书共享库 | `shared/` | 多卡引用，改动影响面可查 |
+| 组件/正则库 | `components/`、`regex/` | 自己的组件集与正则包 |
+| 写卡流程提示 | `dsh/skill/furrhaven-card/SKILL.md` | 可 fork 修改后自行安装 |
 
 ## 安装（手动）
 
