@@ -16,7 +16,7 @@
 - **扮演模式**：`fh play <slug>` 本机试玩（卡体+常驻世界书组装 prompt，世界书 keys 按轮触发）。
 - **门禁**：`fh check` 退出码协议（0=可交付），构建指纹锁防漂移，`fh check --selftest` CI 同款。
 - **DSH 三件套**：preset `card-forge`（写卡域 react/spec/weak 路由）+ skill `furrhaven-card`（流程纪律）+ plugin `fh-tools`（9 个工具，super-injector 热载已验证）。
-- **桌面端 Furrhaven Studio**（`app/`，Tauri 2）：金箔暖纸工坊主题 GUI——工作台字节动画条、卡编辑、三工坊、构建发布、扮演/识图、设置；正在尝试 Android 端（Tauri mobile 可行性实验）。
+- **桌面端 = DSH 官方框架魔改**：fork `deepseek-ai/deepseek-harness`（本地 `dsh-framework/`，私有镜像 `YJLZSL/furrhaven-dsh`），`scripts/sync-dsh.ps1` 同步上游；Furrhaven preset/skill/plugin/主题 以 `furrhaven/` 叠加层合入，不另起桌面栈。
 
 ## 快速开始
 
@@ -55,22 +55,27 @@ fh vision .\assets\立绘.png --card 灰野   # 识图模式
 | **SillyTavern 酒馆本体** | `dist/st/{slug}.v2.png` + `.v3.png` + `.regex.json` | 无硬限 | ✅ V2/V3 PNG |
 | RisuAI / 类脑 | `dist/{risu,leinao}/{slug}.v3.json` | 无硬限 | ✅ V3 |
 
-## 桌面端 Furrhaven Studio
+## 桌面端（DSH 官方框架魔改）
 
 ```powershell
-cd app
-npm install
-npm run tauri dev       # 开发调试
-npm run tauri build     # 产出 NSIS 安装包（src-tauri\target\release\furrhaven-studio.exe）
+# 同步官方上游 + 自测（fork 默认分支 furrhaven）
+.\scripts\sync-dsh.ps1 -SkipSslVerify
+
+# fork 内的 Furrhaven 叠加层
+dsh-framework\furrhaven\presets\card-forge     # 写卡 preset
+dsh-framework\furrhaven\plugins\fh-tools       # 9 个 fh_* 工具
+dsh-framework\furrhaven\skills\furrhaven-card  # 写卡技能
+dsh-framework\furrhaven\theme                  # 金箔暖纸主题覆盖层
 ```
 
-同一套前端正在做 Android 可行性实验（`npx tauri android init && npx tauri android build --apk --debug`，需要 Android SDK/NDK + rust android targets）。
+独立 Tauri 原型已归档 `prototypes/tauri-studio/`（主题/动画规范与 Android 实验记录保留）。
 
 ## 目录
 
 ```
 furrhaven-core/      L1 纯 Python 引擎（fh CLI，pytest）
-app/                 L3 GUI：Furrhaven Studio（Tauri 2 桌面端 + Android 实验）
+dsh-framework/       DSH 官方框架 fork（独立仓库；furrhaven/ 叠加层 + upstream 同步）
+prototypes/          Tauri 桌面原型（已归档，主题规范保留）
 dsh/
   preset/card-forge/ L2 preset（写卡域任务路由 + persona）
   skill/furrhaven-card/SKILL.md

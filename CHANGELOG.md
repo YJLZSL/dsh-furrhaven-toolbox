@@ -11,11 +11,12 @@
 
 ### Added
 
-- **Furrhaven Studio 桌面端**（`app/`，Tauri 2 + 原生 TypeScript）：
-  - 「金箔暖纸工坊」主题：深褐木案 / 米纸面板 / 暖金描边 / 印章品牌图形，全套 CSS 动画（面板入场、字节条 shimmer、浮尘、构建 spinner）且尊重 `prefers-reduced-motion`
-  - 工作台（卡列表 + 各平台字节动画条 + 全项目审计）、卡编辑（模块化/完整卡文件树）、三工坊 GUI、多平台构建发布、扮演试玩、识图、fh.config.yaml 编辑
-  - 桌面产物：`furrhaven-studio.exe` + NSIS 安装包（x64）
-- **Android 可行性实验**：`tauri android init` 成功生成 Gradle 工程；arm64-v8a Rust 库编译并链入 jniLibs；APK 出包进行中（系统代理证书适配后）。
+- **桌面端改为 DSH 官方框架魔改（用户方向修正）**：
+  - fork `deepseek-ai/deepseek-harness` → `dsh-framework/`（私有镜像 `YJLZSL/furrhaven-dsh`，默认分支 `furrhaven`，upstream=官方）
+  - `scripts/sync-dsh.ps1`：fetch upstream → rebase furrhaven → preset node --test 自测（已实测通过）
+  - fork 内 `furrhaven/` 叠加层：card-forge preset / fh-tools plugin / furrhaven-card skill / 金箔暖纸主题 CSS
+  - 独立 Tauri 原型归档到 `prototypes/tauri-studio/`（NSIS 安装包已产出，仅作记录）
+- **Android 可行性实验（Tauri 路线，已归档）**：`tauri android init` 成功、arm64-v8a Rust 库编译入 jniLibs；APK 出包受本机 Gradle 证书/代理拦截未完成。正式移动路线待 DSH Web UI 主题接入后立项。
 - `docs/05-桌面端与移动端方案.md`：技术选型 / 美术规范 / 动画规范 / Android 结论。
 
 ## [0.1.0] - 2026-08-16

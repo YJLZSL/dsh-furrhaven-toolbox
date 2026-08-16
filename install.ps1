@@ -1,4 +1,4 @@
-# Furrhaven 安装脚本：L1 引擎 + L2 preset/skill 落地（plugin 构建用 dev_build_plugin 或手工 tsc）
+﻿# Furrhaven 安装脚本：L1 引擎 + L2 preset/skill 落地（plugin 构建用 dev_build_plugin 或手工 tsc）
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $MyInvocation.MyCommand.Path
 

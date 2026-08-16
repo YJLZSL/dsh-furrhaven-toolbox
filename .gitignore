@@ -31,3 +31,6 @@ Desktop.ini
 
 # 参考项目保持独立（只读，不随本仓提交）
 个人角色卡（平台参考）/
+
+# DSH 官方框架 fork（独立仓库，上游同步走 scripts/sync-dsh.ps1）
+dsh-framework/
