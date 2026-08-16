@@ -2,6 +2,22 @@
 
 所有值得注意的变更记录于此。版本号遵循 semver；平台口径 / IR schema 破坏性变更会 bump minor 并提供迁移说明。
 
+## [0.2.0-dev] - 2026-08-16
+
+### Changed
+
+- **FC 口径修订（用户拍板）**：FC 上传资料包总限制由 15,000 改为 **40,000 UTF-8 字节**；`fh budget`/`fh check` 现在按 卡+开场白+简介+世界书+回复格式+正则+故事线 全量核算。
+- FD 单组件 source ≤20,000 硬限保持不变。
+
+### Added
+
+- **Furrhaven Studio 桌面端**（`app/`，Tauri 2 + 原生 TypeScript）：
+  - 「金箔暖纸工坊」主题：深褐木案 / 米纸面板 / 暖金描边 / 印章品牌图形，全套 CSS 动画（面板入场、字节条 shimmer、浮尘、构建 spinner）且尊重 `prefers-reduced-motion`
+  - 工作台（卡列表 + 各平台字节动画条 + 全项目审计）、卡编辑（模块化/完整卡文件树）、三工坊 GUI、多平台构建发布、扮演试玩、识图、fh.config.yaml 编辑
+  - 桌面产物：`furrhaven-studio.exe` + NSIS 安装包（x64）
+- **Android 可行性实验**：`tauri android init` 成功生成 Gradle 工程；arm64-v8a Rust 库编译并链入 jniLibs；APK 出包进行中（系统代理证书适配后）。
+- `docs/05-桌面端与移动端方案.md`：技术选型 / 美术规范 / 动画规范 / Android 结论。
+
 ## [0.1.0] - 2026-08-16
 
 ### Added（M0 + M1/M2 核心链路 + 三工坊核心 + 用户追加能力）

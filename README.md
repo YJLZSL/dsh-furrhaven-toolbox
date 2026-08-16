@@ -87,6 +87,7 @@ docs/                调研/架构/计划/交接/盘点（权威分级）
 | `docs\01-架构框架设计.md` | 架构规范 v2.0 |
 | `docs\02-开发更新计划.md` | 五阶段十一里程碑 v2.0 |
 | `docs\04-资产盘点表.md` | 参考项目 118 脚本处置 |
+| `docs\05-桌面端与移动端方案.md` | Furrhaven Studio 技术选型 / 美术 / 动画 / Android 可行性 |
 | `dsh\skill\furrhaven-card\SKILL.md` | 写卡流程纪律 |
 
 ## 开发与验收
