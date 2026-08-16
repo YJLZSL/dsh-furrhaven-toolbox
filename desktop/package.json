@@ -1,0 +1,57 @@
+{
+  "name": "dsh-furrhaven-desktop",
+  "productName": "Furrhaven Studio",
+  "version": "1.0.0",
+  "description": "Furrhaven Studio desktop shell — Electron wrapper around DeepSeek Harness web UI, with dsh-furrhaven theme/font modes and auto-update.",
+  "author": "Furrhaven",
+  "license": "MIT",
+  "main": "src/main/index.js",
+  "private": true,
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
+  },
+  "dependencies": {
+    "pnpm": "11.7.0"
+  },
+  "devDependencies": {
+    "electron": "^37.2.0",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.furrhaven.studio",
+    "productName": "Furrhaven Studio",
+    "artifactName": "Furrhaven-Studio-Setup-${version}.exe",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "src/**/*",
+      "assets/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "assets/icon.png",
+        "to": "icon.png"
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Furrhaven Studio"
+    }
+  }
+}

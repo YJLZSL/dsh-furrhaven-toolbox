@@ -1,0 +1,4 @@
+# dsh-fh-tools bundle layer: 把 Furrhaven 写卡工具面挂进 profile。
+- insert:
+    - id: dsh-fh-tools
+      name: "@dsh-external/dsh-fh-tools"

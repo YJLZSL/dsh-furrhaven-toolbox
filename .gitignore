@@ -34,6 +34,7 @@ Desktop.ini
 
 # DSH 官方框架 fork（独立仓库，上游同步走 scripts/sync-dsh.ps1）
 dsh-framework/
+dsh-desktop-shell/
 
 # 发布暂存（GitHub Release 附件，不随仓）
 release/

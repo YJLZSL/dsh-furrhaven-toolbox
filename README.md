@@ -68,6 +68,12 @@ dsh-framework\furrhaven\presets\card-forge     # 写卡 preset
 dsh-framework\furrhaven\plugins\fh-tools       # 9 个 fh_* 工具
 dsh-framework\furrhaven\skills\furrhaven-card  # 写卡技能
 dsh-framework\furrhaven\theme                  # 金箔暖纸主题覆盖层
+
+# 桌面安装器（Electron 壳 + 自动更新）
+cd desktop
+npm install
+npx electron-builder --win nsis
+# 产物：desktop/dist/Furrhaven-Studio-Setup-1.0.0.exe（自动更新指向 dsh-furrhaven-toolbox Releases）
 ```
 
 独立 Tauri 原型已归档 `prototypes/tauri-studio/`（主题/动画规范与 Android 实验记录保留）。
@@ -96,6 +102,7 @@ docs/                调研/架构/计划/交接/盘点（权威分级）
 | `docs\04-资产盘点表.md` | 参考项目 118 脚本处置 |
 | `docs\05-桌面端与移动端方案.md` | DSH fork 魔改路线 / 同步机制 / 主题动画 / Android 结论 |
 | `docs\06-使用教程.md` | v1.0.0 使用教程（安装/双模式/三工坊/门禁/DSH 生态） |
+| `docs\07-dsh生态接入.md` | DSH 官方生态接入验证与 `dsh plugin add` 安装方式 |
 | `dsh\skill\furrhaven-card\SKILL.md` | 写卡流程纪律 |
 
 ## 开发与验收
