@@ -1,0 +1,11 @@
+{
+  "name": "@furrhaven/card-forge-preset",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Furrhaven 写卡工具箱 agent preset（card-forge）",
+  "scripts": {
+    "test": "node --test test/"
+  },
+  "license": "MIT"
+}

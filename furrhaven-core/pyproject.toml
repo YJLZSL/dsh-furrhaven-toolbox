@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "furrhaven-core"
+version = "0.1.0"
+description = "Furrhaven Toolbox: multi-platform role-card authoring engine (FD/FC/FB/SillyTavern V2/V3) with worldbook/component/regex workshops, vision mode and role-play test mode."
+readme = { text = "Furrhaven Toolbox: multi-platform role-card authoring engine. See the repository root README for full documentation.", content-type = "text/markdown" }
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Furrhaven Toolbox" }]
+keywords = ["character-card", "sillytavern", "roleplay", "worldbook", "lorebook", "dsl"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Topic :: Text Processing :: Markup",
+]
+dependencies = ["PyYAML>=6.0"]
+
+[project.optional-dependencies]
+vision = []
+play = []
+
+[project.scripts]
+fh = "furrhaven.cli:main"
+
+[tool.setuptools]
+packages = ["furrhaven"]
+
+[tool.setuptools.package-data]
+furrhaven = ["resources/*.yaml", "resources/*.md", "resources/templates/**/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

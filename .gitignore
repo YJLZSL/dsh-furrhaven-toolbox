@@ -1,0 +1,33 @@
+# Furrhaven Toolbox — gitignore
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+node_modules/
+npm-debug.log*
+
+# 派生产物与本地状态（可重建）
+.fh-lock.yaml
+reviews/
+tmp/
+*.tgz
+
+# DSH 本地热载痕迹
+.dsh-local/
+
+# 系统与编辑器
+Thumbs.db
+Desktop.ini
+.DS_Store
+.vscode/
+.idea/
+
+# 参考项目保持独立（只读，不随本仓提交）
+个人角色卡（平台参考）/

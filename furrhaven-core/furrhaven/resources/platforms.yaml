@@ -1,0 +1,87 @@
+# Furrhaven 平台口径表（事实数据文件，平台改版只改这里）
+# 权威来源：docs/00-调研报告.md §2.5 + 参考项目《FD平台字符限制参考文档》§0.0 实测值。
+# 版本：1.0 | 2026-08-16
+
+version: "1.0"
+
+platforms:
+  fd:
+    label: FD（Fuderation）
+    artifact: "单个 JSON 角色卡（V3）"
+    card_limit_bytes: 50000
+    worldbook_limit_bytes: 30000
+    component_source_limit_bytes: 20000
+    counted_fields: [personality, scenario, world_view, mes_example, response_format]
+    counted_fields_v31: [personality, response_format]   # v3.1 平台显示口径（自由模式实测）
+    component_ai_prompt_counted: true
+    component_source_counted: false
+    world_info_counted: false
+    first_mes_counted: false
+    quick_replies_counted: false
+    title_desc_counted: false
+    render: components + native markdown
+    regex_architecture: deprecated
+    notes: >
+      中文 1 字 = 3 UTF-8 字节；世界书可超 30,000 但超出部分计入卡额度。
+      组件 source 是 JSON 转义后的字节数硬限。
+
+  fc:
+    label: FC（FurryChat / chat.furchat.vip）
+    artifact: "md 卡 + 8 目录上传资料包"
+    card_limit_bytes: 15000
+    counted_scope: [卡, 开场白, 简介, 回复格式]
+    render: 正则脚本渲染 AI 回复
+    worldbook: 平台世界书编辑器（两个保存按钮，先删后填五步法）
+    notes: 上传入口 /my-character-groups；正则脚本在资料包 05 目录。
+
+  fb:
+    label: FB
+    artifact: "单个 md 卡"
+    card_limit_bytes: 10666
+    render: 纯文本约定 + 引用去重（详见§X）
+    notes: 字节最紧的平台。
+
+  st:
+    label: SillyTavern（酒馆本体）
+    artifact: "V2/V3 PNG（chara + ccv3 tEXt chunk）或 JSON"
+    card_limit_bytes: null
+    render: 原生 ST 渲染 + regex JSON + world info JSON
+    notes: >
+      全球事实标准之一。V2 = spec:chara_card_v2；V3 = spec:chara_card_v3（RisuAI 发起）。
+      世界书以 character_book（V2/V3 lorebook）形式内嵌；正则导出 ST regex JSON。
+
+  risu:
+    label: RisuAI
+    artifact: "V3 JSON / PNG（ccv3 chunk）"
+    card_limit_bytes: null
+    notes: V3 规范发起方，与 ST 互相兼容 V2/V3 导入。
+
+  leinao:
+    label: 类脑等中文平台
+    artifact: "V2/V3 兼容导入 + 自有 JSON"
+    card_limit_bytes: null
+    notes: 普遍兼容 ST V2/V3 导入。
+
+worldbook:
+  default_scan_depth: 2
+  default_recursive: true
+  max_recursion_depth: 1
+  token_budget_factor_constant: 1.2
+  token_budget_factor_triggered: 0.5
+  system_entry_prefix: 系统-
+  system_entries:
+    character: [角色, 场景, 目标, 好感, 关系]
+    simulator: [时间, 阶段, 资源, 事件]
+    bigworld: [地点, 在场NPC, 世界时间, 主线进度, 玩家状态, 已知情报]
+
+components:
+  max_components: 30
+  slot_var_pattern: '\$(?!\{)([^$\n]{1,64})\$'
+  banned_html_tags: [script, iframe, object, embed, link, meta, style]
+  banned_css_selectors: [":root"]
+  banned_animations: [infinite]
+  forbidden_in_script: [setInterval]
+  report_height_ms: [150, 500, 1200]
+  vn4: [vnHeader, vnMap, vnThought, vnFooter]
+  sim3: [HUD, vnMap, Choices]
+  world4: [worldStatus, npcRoster, regionMap, eventLog]
