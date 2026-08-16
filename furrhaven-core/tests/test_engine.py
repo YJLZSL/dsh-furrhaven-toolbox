@@ -244,3 +244,37 @@ def test_lint_exit_code_protocol():
                        enabled_packs={"quality-core": False, "genre-furry": False,
                                       "type-simulator": False, "type-bigworld": False})
     assert report.exit_code in (0, 1)
+
+
+# ── 审阅双向流状态机 ─────────────────────────────────────────────────────────
+def test_review_export_apply_state_machine(tmp_path: Path, monkeypatch):
+    from furrhaven.scaffold import scaffold_workspace, scaffold_card
+    from furrhaven.config import Project
+    project = scaffold_workspace(tmp_path, "review-test", platforms=["fd"])
+    scaffold_card(project, "testcard")
+    from furrhaven.review import read_state, review_apply, review_export
+    written = review_export(project, "testcard")
+    assert read_state(project)["testcard"]["status"] == "EDITING"
+    # 修改审阅稿后 apply（保持内容合法，门禁通过）
+    p = written[0]
+    text = p.read_text(encoding="utf-8")
+    text = text.replace("（填写）", "修改后的设定")
+    p.write_text(text, encoding="utf-8", newline="\n")
+    review_apply(project, "testcard")
+    assert read_state(project)["testcard"]["status"] == "IDLE"
+
+
+# ── 动画 showcase 与 ST world info ────────────────────────────────────────────
+def test_showcase_and_st_world_json(tmp_path: Path):
+    from furrhaven.scaffold import scaffold_workspace, scaffold_card
+    from furrhaven.config import Project
+    from furrhaven.exporters import st_world_info_json
+    project = scaffold_workspace(tmp_path, "show-test", platforms=["fd"])
+    scaffold_card(project, "showcard")
+    from furrhaven.showcase import generate_showcase
+    out = generate_showcase(project, tmp_path / "show.html")
+    assert "<style>" in out.read_text(encoding="utf-8")
+    from furrhaven.build import load_project_cards
+    card = load_project_cards(project, "showcard")[0]
+    wj = st_world_info_json(card)
+    assert "entries" in wj and len(wj["entries"]) == 5

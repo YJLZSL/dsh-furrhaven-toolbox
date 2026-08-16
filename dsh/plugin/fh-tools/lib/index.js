@@ -1,5 +1,5 @@
 /**
- * @dsh-external/fh-tools — Furrhaven 写卡工具箱工具面。
+ * @dsh-external/dsh-fh-tools — Furrhaven 写卡工具箱工具面。
  *
  * 每个工具都是 `fh` CLI 的薄封装：L1 引擎纯 Python、零 DSH 依赖；
  * 本插件只负责把 fh 命令挂进 DSH 工具目录（ctx.effect 规范：热卸载自动清理）。
@@ -9,7 +9,7 @@
  */
 import { execFile } from 'node:child_process';
 import { defineTool } from '@deepseek-ai/dsh-tools';
-export const name = '@dsh-external/fh-tools';
+export const name = '@dsh-external/dsh-fh-tools';
 export const inject = ['tools'];
 const MAX_BUFFER = 16 * 1024 * 1024;
 const TIMEOUT_MS = 180_000;
@@ -60,7 +60,7 @@ export function apply(ctx) {
             const argv = ['new', args.slug, ...(args.type ? ['--type', args.type] : []), ...(args.full ? ['--full'] : [])];
             return runFh(argv, args.cwd || '');
         },
-    }), '@dsh-external/fh-tools: fh_new');
+    }), '@dsh-external/dsh-fh-tools: fh_new');
     reg(defineTool({
         name: 'fh_build',
         description: '构建导出：IR → FD JSON / FC 8目录包 / FB md / 酒馆 V2+V3 PNG / RisuAI / 类脑。写后必须跑。',
@@ -73,7 +73,7 @@ export function apply(ctx) {
         async execute(args) {
             return runFh(['build', ...argvOf(args, 'card', '--card'), ...argvOf(args, 'platform', '--platform')], args.cwd || '');
         },
-    }), '@dsh-external/fh-tools: fh_build');
+    }), '@dsh-external/dsh-fh-tools: fh_build');
     reg(defineTool({
         name: 'fh_check',
         description: '门禁聚合：IR/组件五坑/世界书/正则/字节/残留/漂移检查。退出码 0=可交付，先修复再汇报。',
@@ -91,7 +91,7 @@ export function apply(ctx) {
                 ...argvOf(args, 'rule', '--rule'), ...(args.selftest ? ['--selftest'] : [])];
             return runFh(argv, args.cwd || '');
         },
-    }), '@dsh-external/fh-tools: fh_check');
+    }), '@dsh-external/dsh-fh-tools: fh_check');
     reg(defineTool({
         name: 'fh_audit',
         description: '全项目审计：每卡字节余量、世界书/组件/正则/快捷回复盘点。',
@@ -102,7 +102,7 @@ export function apply(ctx) {
         async execute(args) {
             return runFh(['audit'], args.cwd || '');
         },
-    }), '@dsh-external/fh-tools: fh_audit');
+    }), '@dsh-external/dsh-fh-tools: fh_audit');
     reg(defineTool({
         name: 'fh_wb_sim',
         description: '世界书触发模拟器：样例玩家消息 → 命中条目/注入顺序/token 占用（写作时即时反馈）。',
@@ -115,7 +115,7 @@ export function apply(ctx) {
         async execute(args) {
             return runFh(['wb', 'sim', '--card', args.card, '--text', args.text], args.cwd || '');
         },
-    }), '@dsh-external/fh-tools: fh_wb_sim');
+    }), '@dsh-external/dsh-fh-tools: fh_wb_sim');
     reg(defineTool({
         name: 'fh_comp_check',
         description: '组件约束检查器：FD 五坑（$变量$位置/id=name/html禁标签/source 20k/槽位对齐）+ 拉长四禁 + node --check。',
@@ -128,7 +128,7 @@ export function apply(ctx) {
         async execute(args) {
             return runFh(['comp', 'check', ...argvOf(args, 'name', '--name'), ...argvOf(args, 'card', '--card')], args.cwd || '');
         },
-    }), '@dsh-external/fh-tools: fh_comp_check');
+    }), '@dsh-external/dsh-fh-tools: fh_comp_check');
     reg(defineTool({
         name: 'fh_regex_test',
         description: '正则测试台：样例 AI 回复按序应用规则 → 渲染预览 + 每条命中（改正则立即验收）。',
@@ -143,7 +143,7 @@ export function apply(ctx) {
             return runFh(['regex', 'test', '--text', args.text,
                 ...argvOf(args, 'card', '--card'), ...argvOf(args, 'file', '--file')], args.cwd || '');
         },
-    }), '@dsh-external/fh-tools: fh_regex_test');
+    }), '@dsh-external/dsh-fh-tools: fh_regex_test');
     reg(defineTool({
         name: 'fh_vision',
         description: '识图模式：视觉模型读立绘/参考图/平台截图 → 外貌描述或 UI 排查线索（--card 写入 assets/）。',
@@ -158,7 +158,7 @@ export function apply(ctx) {
             return runFh(['vision', args.image,
                 ...argvOf(args, 'card', '--card'), ...argvOf(args, 'mode', '--mode')], args.cwd || '');
         },
-    }), '@dsh-external/fh-tools: fh_vision');
+    }), '@dsh-external/dsh-fh-tools: fh_vision');
     reg(defineTool({
         name: 'fh_play',
         description: '扮演模式试玩：构建后按卡体+世界书扮演一轮（--say 单轮；交互式请直接用终端 fh play）。',
@@ -173,6 +173,6 @@ export function apply(ctx) {
                 return '[fh_play] 交互式扮演请在终端运行 `fh play <slug>`；本工具用 --say 做单轮测试';
             return runFh(['play', args.slug, '--say', args.say], args.cwd || '');
         },
-    }), '@dsh-external/fh-tools: fh_play');
+    }), '@dsh-external/dsh-fh-tools: fh_play');
 }
 //# sourceMappingURL=index.js.map

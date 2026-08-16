@@ -1,4 +1,4 @@
-# @dsh-external/fh-tools
+﻿# @dsh-external/dsh-fh-tools
 
 Furrhaven 写卡工具箱的 DSH 工具面：把 `fh` CLI 的 9 个命令挂进工具目录。
 
@@ -27,7 +27,8 @@ DSH_CHECKOUT=<dsh-checkout> bash scripts/build.sh
 
 ```
 dev_inject_plugin <本目录>
-dev_plugin_status          # 看到 @dsh-external/fh-tools [injected] active
+dev_plugin_status          # 看到 @dsh-external/dsh-fh-tools [injected] active
 dev_reload_package fh-tools # 改代码后热重载
 dev_uninject_plugin fh-tools # 卸载
 ```
+

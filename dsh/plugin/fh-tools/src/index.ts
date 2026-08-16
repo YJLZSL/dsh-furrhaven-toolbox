@@ -1,5 +1,5 @@
-/**
- * @dsh-external/fh-tools — Furrhaven 写卡工具箱工具面。
+﻿/**
+ * @dsh-external/dsh-fh-tools — Furrhaven 写卡工具箱工具面。
  *
  * 每个工具都是 `fh` CLI 的薄封装：L1 引擎纯 Python、零 DSH 依赖；
  * 本插件只负责把 fh 命令挂进 DSH 工具目录（ctx.effect 规范：热卸载自动清理）。
@@ -10,7 +10,7 @@
 import { execFile } from 'node:child_process'
 import { defineTool } from '@deepseek-ai/dsh-tools'
 
-export const name = '@dsh-external/fh-tools'
+export const name = '@dsh-external/dsh-fh-tools'
 export const inject = ['tools']
 
 const MAX_BUFFER = 16 * 1024 * 1024
@@ -76,7 +76,7 @@ export function apply(ctx: { effect: (fn: () => void, label?: string) => void; t
       const argv = ['new', args.slug, ...(args.type ? ['--type', args.type] : []), ...(args.full ? ['--full'] : [])]
       return runFh(argv, args.cwd || '')
     },
-  }), '@dsh-external/fh-tools: fh_new')
+  }), '@dsh-external/dsh-fh-tools: fh_new')
 
   reg(defineTool({
     name: 'fh_build',
@@ -90,7 +90,7 @@ export function apply(ctx: { effect: (fn: () => void, label?: string) => void; t
     async execute(args: { card?: string; platform?: string; cwd?: string }) {
       return runFh(['build', ...argvOf(args, 'card', '--card'), ...argvOf(args, 'platform', '--platform')], args.cwd || '')
     },
-  }), '@dsh-external/fh-tools: fh_build')
+  }), '@dsh-external/dsh-fh-tools: fh_build')
 
   reg(defineTool({
     name: 'fh_check',
@@ -109,7 +109,7 @@ export function apply(ctx: { effect: (fn: () => void, label?: string) => void; t
         ...argvOf(args, 'rule', '--rule'), ...(args.selftest ? ['--selftest'] : [])]
       return runFh(argv, args.cwd || '')
     },
-  }), '@dsh-external/fh-tools: fh_check')
+  }), '@dsh-external/dsh-fh-tools: fh_check')
 
   reg(defineTool({
     name: 'fh_audit',
@@ -121,7 +121,7 @@ export function apply(ctx: { effect: (fn: () => void, label?: string) => void; t
     async execute(args: { cwd?: string }) {
       return runFh(['audit'], args.cwd || '')
     },
-  }), '@dsh-external/fh-tools: fh_audit')
+  }), '@dsh-external/dsh-fh-tools: fh_audit')
 
   reg(defineTool({
     name: 'fh_wb_sim',
@@ -135,7 +135,7 @@ export function apply(ctx: { effect: (fn: () => void, label?: string) => void; t
     async execute(args: { card: string; text: string; cwd?: string }) {
       return runFh(['wb', 'sim', '--card', args.card, '--text', args.text], args.cwd || '')
     },
-  }), '@dsh-external/fh-tools: fh_wb_sim')
+  }), '@dsh-external/dsh-fh-tools: fh_wb_sim')
 
   reg(defineTool({
     name: 'fh_comp_check',
@@ -149,7 +149,7 @@ export function apply(ctx: { effect: (fn: () => void, label?: string) => void; t
     async execute(args: { name?: string; card?: string; cwd?: string }) {
       return runFh(['comp', 'check', ...argvOf(args, 'name', '--name'), ...argvOf(args, 'card', '--card')], args.cwd || '')
     },
-  }), '@dsh-external/fh-tools: fh_comp_check')
+  }), '@dsh-external/dsh-fh-tools: fh_comp_check')
 
   reg(defineTool({
     name: 'fh_regex_test',
@@ -165,7 +165,7 @@ export function apply(ctx: { effect: (fn: () => void, label?: string) => void; t
       return runFh(['regex', 'test', '--text', args.text,
         ...argvOf(args, 'card', '--card'), ...argvOf(args, 'file', '--file')], args.cwd || '')
     },
-  }), '@dsh-external/fh-tools: fh_regex_test')
+  }), '@dsh-external/dsh-fh-tools: fh_regex_test')
 
   reg(defineTool({
     name: 'fh_vision',
@@ -181,7 +181,7 @@ export function apply(ctx: { effect: (fn: () => void, label?: string) => void; t
       return runFh(['vision', args.image,
         ...argvOf(args, 'card', '--card'), ...argvOf(args, 'mode', '--mode')], args.cwd || '')
     },
-  }), '@dsh-external/fh-tools: fh_vision')
+  }), '@dsh-external/dsh-fh-tools: fh_vision')
 
   reg(defineTool({
     name: 'fh_play',
@@ -196,5 +196,6 @@ export function apply(ctx: { effect: (fn: () => void, label?: string) => void; t
       if (!args.say) return '[fh_play] 交互式扮演请在终端运行 `fh play <slug>`；本工具用 --say 做单轮测试'
       return runFh(['play', args.slug, '--say', args.say], args.cwd || '')
     },
-  }), '@dsh-external/fh-tools: fh_play')
+  }), '@dsh-external/dsh-fh-tools: fh_play')
 }
+

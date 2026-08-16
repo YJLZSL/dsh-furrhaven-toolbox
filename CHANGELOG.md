@@ -2,6 +2,27 @@
 
 所有值得注意的变更记录于此。版本号遵循 semver；平台口径 / IR schema 破坏性变更会 bump minor 并提供迁移说明。
 
+## [1.0.0] - 2026-08-16（稳定大版本）
+
+### Changed
+
+- 仓库/包命名加入 dsh 生态：`dsh-furrhaven-toolbox`（主仓）、`dsh-furrhaven`（DSH 官方 fork）；插件包名 `@dsh-external/dsh-fh-tools`；GitHub topics `dsh-plugin`/`deepseek-harness`。
+- 桌面路线：DeepSeek Harness 官方框架 fork + `scripts/sync-dsh.ps1` 上游同步（fetch → rebase → preset node --test，实测通过）。
+
+### Added
+
+- **审阅双向流**：`fh review export/apply/abort/status`；EDITING 状态机锁（期间 build/export 拒绝）；apply 回写模块化 IR 或完整卡 card.md，门禁通过才解锁，失败保留锁可 abort。
+- **动画 showcase**：`fh showcase` → `dist/showcase.html`（金箔暖纸主题；字节条 shimmer、卡牌入场、槽位协议、世界书触发、正则渲染预览；`prefers-reduced-motion` 降级）。
+- **ST world info JSON**：`dist/st/<slug>.world.json`（SillyTavern 可独立导入），与 `.regex.json` 配套。
+- `docs/06-使用教程.md`。
+- 引擎/插件/preset 版本号统一 1.0.0。
+
+### Verified
+
+- `pytest` 21/21；`fh check --selftest` 10/10；preset `node --test` 7/7。
+- DSH fork 上游同步脚本实测成功；插件卸载旧名 → 注入新名 → `dev_plugin_status` active。
+- E2E：`fh review export → build 被拒 → apply 回写门禁通过 → IDLE`；`fh showcase` 生成；demo 项目全平台 build+check 0 problems。
+
 ## [0.2.0-dev] - 2026-08-16
 
 ### Changed
@@ -12,7 +33,7 @@
 ### Added
 
 - **桌面端改为 DSH 官方框架魔改（用户方向修正）**：
-  - fork `deepseek-ai/deepseek-harness` → `dsh-framework/`（私有镜像 `YJLZSL/furrhaven-dsh`，默认分支 `furrhaven`，upstream=官方）
+  - fork `deepseek-ai/deepseek-harness` → `dsh-framework/`（私有镜像 `YJLZSL/dsh-furrhaven`，默认分支 `furrhaven`，upstream=官方）
   - `scripts/sync-dsh.ps1`：fetch upstream → rebase furrhaven → preset node --test 自测（已实测通过）
   - fork 内 `furrhaven/` 叠加层：card-forge preset / fh-tools plugin / furrhaven-card skill / 金箔暖纸主题 CSS
   - 独立 Tauri 原型归档到 `prototypes/tauri-studio/`（NSIS 安装包已产出，仅作记录）

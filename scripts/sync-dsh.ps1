@@ -6,7 +6,7 @@
 #   .\scripts\sync-dsh.ps1 -SkipSslVerify  # 本机 git 证书链不完整时启用（一次命令）
 #
 # 前提：fork 位于 <本仓>\dsh-framework，remote:
-#   origin   = https://github.com/YJLZSL/furrhaven-dsh.git
+#   origin   = https://github.com/YJLZSL/dsh-furrhaven.git
 #   upstream = https://github.com/deepseek-ai/deepseek-harness.git
 [CmdletBinding()]
 param(

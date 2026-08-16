@@ -4,7 +4,7 @@ L1 核心引擎：纯 Python + 标准库 + PyYAML，不依赖 DSH。
 CLI 入口：`fh`（见 cli.py）。
 """
 
-__version__ = "0.1.0"
+__version__ = "1.0.0"
 ENGINE_NAME = "furrhaven-core"
 
 IR_SCHEMA_VERSION = "1.0"

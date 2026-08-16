@@ -238,7 +238,7 @@ def st_v3(card: Card) -> dict[str, Any]:
             "assets": assets,
             "creation_date": card.creation_date or now,
             "modification_date": now,
-            "source": ["furrhaven-toolbox"],
+            "source": ["dsh-furrhaven-toolbox"],
         },
     }
 
@@ -280,6 +280,31 @@ def _st_extensions(card: Card, now: int) -> dict[str, Any]:
     ext = dict(card.extensions or {})
     ext["furrhaven"] = fh
     return ext
+
+
+def st_world_info_json(card: Card) -> dict[str, Any]:
+    """SillyTavern 独立 world info JSON（entries 按 id 键控）。"""
+    entries: dict[str, Any] = {}
+    for i, e in enumerate(card.worldbook):
+        key = str(e.id) if e.id not in (0, "", None) else f"entry-{i}"
+        entries[key] = {
+            "key": e.keys,
+            "secondary_keys": e.secondary_keys,
+            "comment": e.name,
+            "content": e.content,
+            "constant": e.constant,
+            "selective": e.selective,
+            "order": i,
+            "position": e.position,
+            "disable": not e.enabled,
+            "excludeRecursion": False,
+            "probability": e.probability,
+            "useProbability": e.probability != 100,
+            "depth": e.depth,
+            "caseSensitive": e.case_sensitive,
+            "useRegex": e.use_regex,
+        }
+    return {"entries": entries}
 
 
 def st_regex_json(card: Card) -> list[dict[str, Any]]:
@@ -339,7 +364,9 @@ def export_card(
         write_card_png(st_v2(card), v2_png, avatar, include_v2=True, include_v3=False)
         write_card_png(st_v3(card), v3_png, avatar, include_v2=False, include_v3=True)
         regex_path = _json_dump(st_regex_json(card), d / f"{card.slug}.regex.json")
-        return {"v2_json": v2_json, "v3_json": v3_json, "v2_png": v2_png, "v3_png": v3_png, "regex_json": regex_path}
+        world_path = _json_dump(st_world_info_json(card), d / f"{card.slug}.world.json")
+        return {"v2_json": v2_json, "v3_json": v3_json, "v2_png": v2_png, "v3_png": v3_png,
+                "regex_json": regex_path, "world_json": world_path}
     if platform in ("risu", "leinao"):
         d = dist_root / platform
         p = _json_dump(st_v3(card), d / f"{card.slug}.v3.json")

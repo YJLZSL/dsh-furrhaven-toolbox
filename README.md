@@ -1,9 +1,9 @@
 # Furrhaven · 角色卡多平台写卡工具箱
 
-> 版本：v0.1.0（M0+M1+M2+M3-M5 核心链路 + 酒馆 V2/V3 + 识图/扮演模式落地） | 2026-08-16
-> 定位：**全类型角色卡创作工具箱**（兽人创作出身、不限题材）—— Python 核心引擎 + DeepSeek-Harness 三件套，兼容 dsh-routing-suite（风神）路由。
+> 版本：v1.0.0（稳定大版本） | 2026-08-16
+> 定位：**全类型角色卡创作工具箱**（兽人创作出身、不限题材）—— Python 核心引擎 + DeepSeek-Harness 官方框架 fork（dsh-furrhaven），加入 dsh 生态。
 
-## 已实现能力（v0.1.0）
+## 已实现能力（v1.0.0）
 
 五大能力面 + 用户本次追加的三项：
 
@@ -11,12 +11,14 @@
 - **世界书工坊**：条目 CRUD、keys 误触发分析、触发模拟器（含递归 depth=1）、预算核算。
 - **组件工坊**：`fh comp new` 脚手架、注入引擎、约束检查器（FD 五坑 + 拉长四禁 + 花括号/node --check/:root）、槽位协议文档、extract 入库。
 - **正则工坊**：FC 统一渲染 v2.3 模板包（15 条全量迁移）、测试台、wrapper 最后/星号互斥检查。
-- **多平台导出**：FD JSON（自由模式 v3.0 字节口径）· FC 8 目录资料包 · FB md · **酒馆本体 SillyTavern V2/V3 PNG**（`chara`+`ccv3` chunk）· RisuAI V3 · 类脑 V3。
+- **多平台导出**：FD JSON（自由模式 v3.0 字节口径）· FC 8 目录资料包 · FB md · **酒馆本体 SillyTavern V2/V3 PNG**（`chara`+`ccv3` chunk）+ **ST world info JSON / regex JSON** · RisuAI V3 · 类脑 V3。
 - **识图模式**：`fh vision <图> [--card X] [--mode ui]` 视觉模型读立绘/参考图/平台截图。
 - **扮演模式**：`fh play <slug>` 本机试玩（卡体+常驻世界书组装 prompt，世界书 keys 按轮触发）。
+- **审阅双向流**：`fh review export/apply/abort/status`，EDITING 状态机锁拒绝 build/export，apply 回写 IR 且门禁通过才解锁。
+- **动画 showcase**：`fh showcase` 生成金箔暖纸主题动效总览（字节条 shimmer/卡牌入场/槽位协议/世界书触发/正则预览）。
 - **门禁**：`fh check` 退出码协议（0=可交付），构建指纹锁防漂移，`fh check --selftest` CI 同款。
-- **DSH 三件套**：preset `card-forge`（写卡域 react/spec/weak 路由）+ skill `furrhaven-card`（流程纪律）+ plugin `fh-tools`（9 个工具，super-injector 热载已验证）。
-- **桌面端 = DSH 官方框架魔改**：fork `deepseek-ai/deepseek-harness`（本地 `dsh-framework/`，私有镜像 `YJLZSL/furrhaven-dsh`），`scripts/sync-dsh.ps1` 同步上游；Furrhaven preset/skill/plugin/主题 以 `furrhaven/` 叠加层合入，不另起桌面栈。
+- **DSH 生态**：主仓 `dsh-furrhaven-toolbox` + 官方框架 fork `dsh-furrhaven`（upstream 同步脚本）；preset `card-forge` + skill `furrhaven-card` + 插件 **`@dsh-external/dsh-fh-tools`**（9 个工具，super-injector 热载已验证）。
+- **桌面端 = DSH 官方框架魔改**：fork `deepseek-ai/deepseek-harness`（本地 `dsh-framework/`，私有镜像 `YJLZSL/dsh-furrhaven`），`scripts/sync-dsh.ps1` 同步上游；Furrhaven preset/skill/plugin/主题 以 `furrhaven/` 叠加层合入，不另起桌面栈。
 
 ## 快速开始
 
@@ -79,7 +81,7 @@ prototypes/          Tauri 桌面原型（已归档，主题规范保留）
 dsh/
   preset/card-forge/ L2 preset（写卡域任务路由 + persona）
   skill/furrhaven-card/SKILL.md
-  plugin/fh-tools/   L2 插件（9 个 fh 工具，已注入 DSH 验证）
+  plugin/fh-tools/   L2 插件（@dsh-external/dsh-fh-tools，9 个 fh 工具，已注入 DSH 验证）
 tools/               迁移器/盘点器（参考项目资产 → 引擎）
 docs/                调研/架构/计划/交接/盘点（权威分级）
 ```
@@ -92,15 +94,17 @@ docs/                调研/架构/计划/交接/盘点（权威分级）
 | `docs\01-架构框架设计.md` | 架构规范 v2.0 |
 | `docs\02-开发更新计划.md` | 五阶段十一里程碑 v2.0 |
 | `docs\04-资产盘点表.md` | 参考项目 118 脚本处置 |
-| `docs\05-桌面端与移动端方案.md` | Furrhaven Studio 技术选型 / 美术 / 动画 / Android 可行性 |
+| `docs\05-桌面端与移动端方案.md` | DSH fork 魔改路线 / 同步机制 / 主题动画 / Android 结论 |
+| `docs\06-使用教程.md` | v1.0.0 使用教程（安装/双模式/三工坊/门禁/DSH 生态） |
 | `dsh\skill\furrhaven-card\SKILL.md` | 写卡流程纪律 |
 
 ## 开发与验收
 
 ```powershell
-python -m pytest furrhaven-core\tests -q    # 引擎单测
+python -m pytest furrhaven-core\tests -q    # 引擎单测（21 项）
 fh check --selftest                          # 引擎自检（CI 同款）
 node --test dsh/preset/card-forge/test/      # preset 自测（Node 24 用通配路径）
+.\scripts\sync-dsh.ps1                       # DSH 官方框架上游同步 + fork 自检
 ```
 
 平台口径改动只改 `furrhaven-core/furrhaven/resources/platforms.yaml`；平台改版用 `fh calibrate fd` 探针实测回填 `platforms.local.yaml`。

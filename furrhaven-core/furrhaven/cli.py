@@ -28,7 +28,7 @@ def main(argv: list[str] | None = None) -> int:
         return _dispatch(args)
     except SystemExit:
         raise
-    except (FileNotFoundError, ValueError) as e:
+    except (FileNotFoundError, ValueError, RuntimeError) as e:
         print(f"fh: {e}", file=sys.stderr)
         return 2
     except KeyboardInterrupt:
@@ -155,6 +155,21 @@ def _build_parser() -> argparse.ArgumentParser:
     pcal = add("calibrate", "口径重测：生成探针卡，实测后回填 platforms.local.yaml")
     pcal.add_argument("platform", choices=["fd"])
 
+    # review
+    prv = add("review", "审阅双向流：export 加锁 → apply 回写 IR + 门禁 → IDLE")
+    rsub = prv.add_subparsers(dest="review_command")
+    rexp = rsub.add_parser("export", help="导出文字审阅稿并加 EDITING 锁")
+    rexp.add_argument("--card", default=None)
+    rapp = rsub.add_parser("apply", help="审阅稿回写 IR（门禁过才解锁）")
+    rapp.add_argument("--card", required=True)
+    rab = rsub.add_parser("abort", help="放弃本次审阅，解锁")
+    rab.add_argument("--card", required=True)
+    rsub.add_parser("status", help="查看审阅状态机")
+
+    # showcase
+    psh = add("showcase", "动画 showcase：项目卡总览（字节条/槽位协议/世界书/正则）")
+    psh.add_argument("--out", default=None, help="输出路径（缺省 dist/showcase.html）")
+
     return p
 
 
@@ -220,6 +235,8 @@ def _dispatch(args: argparse.Namespace) -> int:
 
     if cmd == "build":
         from .build import build_all
+        from .review import assert_not_editing
+        assert_not_editing(project, args.card, "build")
         platforms = _parse_platforms(args, project)
         dist = Path(args.dist) if args.dist else None
         results = build_all(project, only=args.card, platforms=platforms, dist_root=dist)
@@ -264,6 +281,15 @@ def _dispatch(args: argparse.Namespace) -> int:
 
     if cmd == "calibrate":
         return _cmd_calibrate(args, project)
+
+    if cmd == "review":
+        return _cmd_review(args, project)
+
+    if cmd == "showcase":
+        from .showcase import generate_showcase
+        out = generate_showcase(project, Path(args.out) if args.out else None)
+        print(f"✓ showcase 已生成：{out}")
+        return 0
 
     print("fh: 缺少子命令（fh --help）", file=sys.stderr)
     return 2
@@ -555,6 +581,32 @@ def _cmd_calibrate(args, project: Project) -> int:
     print("  上传平台 → 记录「已使用」字节数 → `fh calibrate` 流程回填 platforms.local.yaml")
     print("  期望：各字段 1500 字节（UTF-8）时，显示值可反推计入字段口径。")
     return 0
+
+
+def _cmd_review(args, project: Project) -> int:
+    from .review import read_state, review_abort, review_apply, review_export
+    if args.review_command == "export":
+        written = review_export(project, args.card)
+        for p in written:
+            print(f"✓ 审阅稿已导出（EDITING 锁已加）：{p}")
+        return 0
+    if args.review_command == "apply":
+        review_apply(project, args.card)
+        print(f"✓ {args.card} 已回写 IR，门禁通过，状态解锁")
+        return 0
+    if args.review_command == "abort":
+        review_abort(project, args.card)
+        print(f"✓ {args.card} 审阅已放弃并解锁")
+        return 0
+    if args.review_command == "status":
+        state = read_state(project)
+        if not state:
+            print("（无审阅记录）")
+        for slug, st in state.items():
+            print(f"  {slug}: {st.get('status')}")
+        return 0
+    print("fh review: 缺少子命令（export/apply/abort/status）", file=sys.stderr)
+    return 2
 
 
 # ── 引擎自检 ─────────────────────────────────────────────────────────────────
