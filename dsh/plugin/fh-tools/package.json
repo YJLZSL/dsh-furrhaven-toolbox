@@ -1,6 +1,6 @@
-{
+﻿{
   "name": "@dsh-external/dsh-fh-tools",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Furrhaven 写卡工具箱插件：fh_new/build/check/audit + 世界书触发模拟/组件约束/正则测试/识图/扮演工具面",
   "private": true,
   "type": "module",

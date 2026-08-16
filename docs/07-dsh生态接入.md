@@ -10,7 +10,7 @@ Furrhaven 现在是 **DSH 附属插件**（`@dsh-external/dsh-fh-tools`），即
 2. `dsh plugin --profile web add <tgz|repo>` 可安装；`remove` 即删。
 3. 安装后自动注册 9 个 `fh_*` 工具 + `furrhaven-card` 技能（`ctx.skills.register`）。
 4. 仓库使用 `dsh-` 命名与 `dsh-plugin` topic，已公开开放。
-5. 官方 fork / 桌面安装器已归档，不再作为主路线。
+5. 官方 fork / 桌面安装器已从主仓删除，不再作为主路线。
 
 ## 安装验证
 

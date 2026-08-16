@@ -1,6 +1,6 @@
-# Furrhaven · DSH 附属插件（即安即用，即删）
+﻿# Furrhaven · DSH 附属插件（即安即用，即删）
 
-> 版本：v1.2.0 | 2026-08-16 | 定位：**DeepSeek Harness 附属插件**，安装后自动获得角色卡多平台写卡工具面与流程技能；卸载即清理。
+> 版本：v1.3.0 | 2026-08-16 | 定位：**DeepSeek Harness 附属插件**，安装后自动获得角色卡多平台写卡工具面与流程技能；卸载即清理。
 > 面向人群：普通 DSH 用户 / 角色卡作者 / 想在 AI 里直接写卡的人。
 
 ## 这是什么
@@ -14,16 +14,17 @@ Furrhaven 是一套「卡体写作 + 世界书 + 组件 + 正则 + 多平台导�
 
 ## 小白一键提示词（复制给任意 AI）
 
-把下面这段直接粘贴给你的 AI 助手，它就能帮你安装并开始使用：
+前提：你已经安装好 DeepSeek Harness（DSH）。把下面这段直接粘贴给你的 AI 助手，它就能帮你安装并开始使用：
 
 ```text
-请帮我安装 Furrhaven 插件（DSH 附属插件，即安即用即删）：
-1. 先确认 Python 已安装，然后运行：pip install -e furrhaven-core
-2. 检查 DSH 环境：如果本机有 dsh 命令，运行 dsh plugin --profile web add <插件 tgz 路径>；
-   如果没有 dsh 命令，使用 DSH 的超级注入器：dev_inject_plugin <dsh/plugin/fh-tools 目录>
-3. 安装后运行 fh check --selftest 验证引擎；
-4. 然后帮我创建一个角色卡项目：fh init ./my-project && cd ./my-project && fh new 测试角色 --full
-5. 最后用 fh check 和 fh build --platform all 完成门禁与构建。
+我已经装好了 DeepSeek Harness（DSH），现在想安装 Furrhaven 插件（DSH 附属插件，即安即用即删）：
+1. 先确认 Python 已安装；没有就帮我安装 Python 3.11+。
+2. 进入 Furrhaven 仓库根目录，运行：pip install -e furrhaven-core
+3. 用 DSH 官方方式安装插件：dsh plugin --profile web add .\dsh-external-dsh-fh-tools-1.3.0.tgz
+   如果当前环境没有 dsh 命令，就改用 DSH 超级注入器：dev_inject_plugin <仓库>\dsh\plugin\fh-tools
+4. 运行 fh check --selftest 验证插件对应的引擎已就绪。
+5. 然后帮我创建角色卡项目：fh init ./my-project && cd ./my-project && fh new 测试角色 --full
+6. 最后用 fh check 和 fh build --platform all 完成门禁与构建。
 如果不知道插件路径，先浏览本仓库根目录，找到 dsh/plugin/fh-tools 或 release 里的 tgz。
 ```
 
@@ -36,7 +37,7 @@ fh check --selftest
 
 # 插件（二选一）
 # A. 官方 bundle 安装
-dsh plugin --profile web add .\dsh-external-dsh-fh-tools-1.2.0.tgz
+dsh plugin --profile web add .\dsh-external-dsh-fh-tools-1.3.0.tgz
 # B. super-injector 热载
 dev_inject_plugin <本仓库>\dsh\plugin\fh-tools
 
@@ -71,7 +72,6 @@ furrhaven-core/      Python 引擎（fh CLI，pytest）
 dsh/plugin/fh-tools/ DSH 附属插件（9 工具 + 技能 + bundle）
 dsh/skill/           furrhaven-card 技能源文件
 dsh/preset/          card-forge 写卡 preset（可选）
-prototypes/          已归档桌面原型（不再主路线）
 tools/               资产迁移/盘点工具
 docs/                调研/架构/交接/教程/生态接入
 ```

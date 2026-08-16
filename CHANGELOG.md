@@ -2,6 +2,20 @@
 
 所有值得注意的变更记录于此。版本号遵循 semver；平台口径 / IR schema 破坏性变更会 bump minor 并提供迁移说明。
 
+## [1.3.0] - 2026-08-16（清理桌面残留 + 提示词重写）
+
+### Changed
+
+- 删除桌面残留：`prototypes/desktop-electron/`、`prototypes/tauri-studio/`、`scripts/sync-dsh.ps1`、本地 `dsh-framework/` 与 `dsh-desktop-shell/`。
+- 删除废弃文档：`docs/02-开发更新计划.md`、`docs/05-桌面端与移动端方案.md`。
+- 重写 `README.md` 小白一键提示词：前提为「用户已装好 DSH」，只保留插件安装 + 引擎依赖。
+- 重写 `docs/03-交接文档_给下一个AI.md`：当前项目状态收敛为 DSH 附属插件。
+- 仓库描述、文档导航同步更新；仓库保持 public。
+
+### Verified
+
+- 引擎/插件/preset 版本统一 1.3.0；插件仍可注入/卸载（即安即用即删）。
+
 ## [1.2.0] - 2026-08-16（DSH 附属插件化）
 
 ### Changed（用户拍板：推翻桌面/fork/安装器主路线）
