@@ -22,6 +22,16 @@ declare const process: {
   platform: string
 }
 
+declare const __dirname: string
+
+declare module 'node:fs' {
+  export function readFileSync(path: string, encoding: 'utf8'): string
+}
+
+declare module 'node:path' {
+  export function join(...parts: string[]): string
+}
+
 /** 打包部署可能不带 dsh-tools 的声明文件，做最小结构声明。 */
 declare module '@deepseek-ai/dsh-tools' {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

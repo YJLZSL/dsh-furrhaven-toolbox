@@ -2,6 +2,25 @@
 
 所有值得注意的变更记录于此。版本号遵循 semver；平台口径 / IR schema 破坏性变更会 bump minor 并提供迁移说明。
 
+## [1.2.0] - 2026-08-16（DSH 附属插件化）
+
+### Changed（用户拍板：推翻桌面/fork/安装器主路线）
+
+- 主交付物收敛为 **DSH 附属插件** `@dsh-external/dsh-fh-tools`：即安即用、即删。
+- 桌面 Electron 安装器/自动更新/主题字体/图标、DSH fork 叠加层、Tauri 原型全部归档到 `prototypes/` 与 `dsh-framework/`（保留作参考，不再作为主路线）。
+
+### Added
+
+- 插件自带 **furrhaven-card 技能注册**：安装插件即注册技能，卸载即删。
+- 集成官方思路：`changeMsg` / `getMsgContent` 组件嵌套与开场切换（SKILL §7）。
+- 集成防 AI 味提示包：无折行号、减少心理、7k 字待、禁止发情、不结束、不要“不是A是B”等（SKILL §8，其中部分已由 lint 规则覆盖）。
+- bundle 清单 + `cordis.patch.yml` 保持 `dsh plugin add` 官方安装路径。
+
+### Verified
+
+- 插件 tsc 编译、uninject 旧版 → inject 新版 → `dev_plugin_status` active。
+- 引擎 `pytest` 21/21；`fh check --selftest` 10/10；preset node --test 7/7。
+
 ## [1.1.0] - 2026-08-16
 
 ### Added

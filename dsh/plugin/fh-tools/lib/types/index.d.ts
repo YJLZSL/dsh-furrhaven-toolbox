@@ -6,4 +6,12 @@ export declare function apply(ctx: {
     tools: {
         register: (tool: ReturnType<typeof defineTool>, label?: string) => void;
     };
+    skills?: {
+        register: (skill: {
+            name: string;
+            description: string;
+            content: string;
+            whenToUse?: string;
+        }) => () => void;
+    };
 }): void;

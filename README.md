@@ -1,6 +1,6 @@
 # Furrhaven · 角色卡多平台写卡工具箱
 
-> 版本：v1.1.0（稳定大版本 + 桌面安装器/自动更新） | 2026-08-16
+> 版本：v1.2.0（DSH 附属插件：即安即用，即删） | 2026-08-16
 > 定位：**全类型角色卡创作工具箱**（兽人创作出身、不限题材）—— Python 核心引擎 + DeepSeek-Harness 官方框架 fork（dsh-furrhaven），加入 dsh 生态。
 
 ## 已实现能力（v1.0.0）
@@ -18,7 +18,7 @@
 - **动画 showcase**：`fh showcase` 生成金箔暖纸主题动效总览（字节条 shimmer/卡牌入场/槽位协议/世界书触发/正则预览）。
 - **门禁**：`fh check` 退出码协议（0=可交付），构建指纹锁防漂移，`fh check --selftest` CI 同款。
 - **DSH 生态**：主仓 `dsh-furrhaven-toolbox` + 官方框架 fork `dsh-furrhaven`（upstream 同步脚本）；preset `card-forge` + skill `furrhaven-card` + 插件 **`@dsh-external/dsh-fh-tools`**（9 个工具，super-injector 热载已验证）。
-- **桌面端 = DSH 官方框架魔改**：fork `deepseek-ai/deepseek-harness`（本地 `dsh-framework/`，私有镜像 `YJLZSL/dsh-furrhaven`），`scripts/sync-dsh.ps1` 同步上游；Furrhaven preset/skill/plugin/主题 以 `furrhaven/` 叠加层合入，不另起桌面栈。
+- **DSH 附属插件（主路线）**：`@dsh-external/dsh-fh-tools` bundle —— 即安即用、即删；安装后自动注册 9 个 fh_* 工具 + furrhaven-card 技能，卸载即清理。官方 fork/桌面安装器已归档为参考（`prototypes/`、`dsh-framework/`）。
 
 ## 快速开始
 
@@ -57,33 +57,29 @@ fh vision .\assets\立绘.png --card 灰野   # 识图模式
 | **SillyTavern 酒馆本体** | `dist/st/{slug}.v2.png` + `.v3.png` + `.regex.json` | 无硬限 | ✅ V2/V3 PNG |
 | RisuAI / 类脑 | `dist/{risu,leinao}/{slug}.v3.json` | 无硬限 | ✅ V3 |
 
-## 桌面端（DSH 官方框架魔改）
+## DSH 附属插件（即安即用，即删）
 
 ```powershell
-# 同步官方上游 + 自测（fork 默认分支 furrhaven）
-.\scripts\sync-dsh.ps1 -SkipSslVerify
-
-# fork 内的 Furrhaven 叠加层
-dsh-framework\furrhaven\presets\card-forge     # 写卡 preset
-dsh-framework\furrhaven\plugins\fh-tools       # 9 个 fh_* 工具
-dsh-framework\furrhaven\skills\furrhaven-card  # 写卡技能
-dsh-framework\furrhaven\theme                  # 金箔暖纸主题覆盖层
-
-# 桌面安装器（Electron 壳 + 自动更新）
-cd desktop
-npm install
-npx electron-builder --win nsis
-# 产物：desktop/dist/Furrhaven-Studio-Setup-1.1.0.exe（自动更新指向 dsh-furrhaven-toolbox Releases）
+# 安装（tarball 或 git bundle）
+dsh plugin --profile web add .\dsh-external-dsh-fh-tools-1.2.0.tgz
+# 使用：9 个 fh_* 工具 + furrhaven-card 技能自动注册
+# 卸载：即删，工具与技能随插件 dispose 一起清理
+dsh plugin --profile web remove dsh-fh-tools
 ```
 
-独立 Tauri 原型已归档 `prototypes/tauri-studio/`（主题/动画规范与 Android 实验记录保留）。
+插件内容：
+- `fh_new / fh_build / fh_check / fh_audit / fh_wb_sim / fh_comp_check / fh_regex_test / fh_vision / fh_play`
+- 自带 `furrhaven-card` 技能注册（含官方 `changeMsg`/`getMsgContent` 嵌套思路与防 AI 味提示包）
+- `cordis.patch.yml` bundle 层，`dsh plugin add` 官方安装路径
+
+> 已归档（不再作为主路线）：`prototypes/desktop-electron/`（Electron 安装器/自动更新/主题字体/图标）、`dsh-framework/`（官方 fork 叠加层）、`prototypes/tauri-studio/`。
 
 ## 目录
 
 ```
 furrhaven-core/      L1 纯 Python 引擎（fh CLI，pytest）
 dsh-framework/       DSH 官方框架 fork（独立仓库；furrhaven/ 叠加层 + upstream 同步）
-prototypes/          Tauri 桌面原型（已归档，主题规范保留）
+prototypes/          Electron/Tauri 桌面原型（已归档，主题规范保留）
 dsh/
   preset/card-forge/ L2 preset（写卡域任务路由 + persona）
   skill/furrhaven-card/SKILL.md

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "furrhaven-core"
-version = "1.1.0"
+version = "1.2.0"
 description = "Furrhaven Toolbox: multi-platform role-card authoring engine (FD/FC/FB/SillyTavern V2/V3) with worldbook/component/regex workshops, vision mode and role-play test mode."
 readme = { text = "Furrhaven Toolbox: multi-platform role-card authoring engine. See the repository root README for full documentation.", content-type = "text/markdown" }
 requires-python = ">=3.11"

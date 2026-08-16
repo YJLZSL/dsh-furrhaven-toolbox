@@ -8,9 +8,11 @@
  * 因此本插件不做二次锚定，避免与 preset 的 system-prompt/assemble 打架。
  */
 import { execFile } from 'node:child_process';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { defineTool } from '@deepseek-ai/dsh-tools';
 export const name = '@dsh-external/dsh-fh-tools';
-export const inject = ['tools'];
+export const inject = ['tools', 'skills'];
 const MAX_BUFFER = 16 * 1024 * 1024;
 const TIMEOUT_MS = 180_000;
 function exec(cmd, args, cwd, timeoutMs) {
@@ -43,6 +45,22 @@ function argvOf(args, key, flag) {
     return [flag, String(v)];
 }
 export function apply(ctx) {
+    // 即安即用：插件加载时把 furrhaven-card 技能注册进 DSH 技能目录；卸载即删。
+    if (ctx.skills) {
+        try {
+            const skillPath = join(__dirname, '..', 'skills', 'furrhaven-card', 'SKILL.md');
+            const content = readFileSync(skillPath, 'utf8');
+            ctx.effect(() => ctx.skills.register({
+                name: 'furrhaven-card',
+                description: 'Furrhaven 写卡工具箱流程纪律：多平台角色卡（FD/FC/FB/酒馆 V2V3）从零写作、三工坊、完整卡模式、识图与扮演测试。当用户要求写/改/修/审计/导出角色卡时使用。',
+                whenToUse: '写卡、改卡、修卡、审计、导出角色卡',
+                content,
+            }), '@dsh-external/dsh-fh-tools: skill furrhaven-card');
+        }
+        catch {
+            // skills 服务不可用时忽略，不影响工具面
+        }
+    }
     const reg = (tool, label) => {
         ctx.effect(() => ctx.tools.register(tool), label);
     };
