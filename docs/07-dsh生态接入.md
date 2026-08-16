@@ -1,33 +1,35 @@
-# DSH 生态接入（v1.1 验证记录）
+# DSH 生态接入（v1.2.0）
 
-> 版本：1.0 | 2026-08-16 | 权威级别：规范 | 上游来源：官方 `docs/user/develop/basic/publish.md`
+> 版本：2.0 | 2026-08-16 | 权威级别：规范 | 上游来源：官方 `docs/user/develop/basic/publish.md`
 
 ## 结论
 
-已经按 DSH 官方插件生态的要求接入，不是“自造框架”：
+Furrhaven 现在是 **DSH 附属插件**（`@dsh-external/dsh-fh-tools`），即安即用、即删：
 
-1. 官方框架：fork `deepseek-ai/deepseek-harness`（`dsh-furrhaven`），直接使用 DSH 官方 Web UI / Electron 壳。
-2. 插件可安装：`dsh-fh-tools` 现在是 **bundle** 包，带 `dsh.bundle` 清单 + `cordis.patch.yml`，可用 `dsh plugin --profile web add <repo-or-tgz>` 安装。
-3. preset 进入官方 shipped preset root：`apps/cli/config/agent-presets/card-forge`。
-4. 生态命名与 topic：仓库名 `dsh-*`，GitHub topics 含 `dsh-plugin`、`deepseek-harness`。
-5. 上游同步：`scripts/sync-dsh.ps1` 已实测（fetch upstream → rebase furrhaven → preset 自测）。
+1. 插件是官方 **bundle**：`package.json` 带 `dsh.bundle.patch` + `cordis.patch.yml`。
+2. `dsh plugin --profile web add <tgz|repo>` 可安装；`remove` 即删。
+3. 安装后自动注册 9 个 `fh_*` 工具 + `furrhaven-card` 技能（`ctx.skills.register`）。
+4. 仓库使用 `dsh-` 命名与 `dsh-plugin` topic，已公开开放。
+5. 官方 fork / 桌面安装器已归档，不再作为主路线。
 
-## 官方验证方法
+## 安装验证
 
 ```powershell
-# 1) 官方仓库 publish 文档确认 bundle 结构
-#    dsh-framework/docs/user/develop/basic/publish.md
+# 引擎
+pip install -e furrhaven-core
 
-# 2) 本地安装验证（用打包后的 tgz）
-dsh plugin --profile web add .\dsh-external-dsh-fh-tools-1.0.0.tgz
-dsh plugin --profile web list
+# 插件（二选一）
+dsh plugin --profile web add .\dsh-external-dsh-fh-tools-1.2.0.tgz
+# 或 super-injector
+dev_inject_plugin <repo>\dsh\plugin\fh-tools
 
-# 3) 源码 fork 同步
-.\scripts\sync-dsh.ps1 -SkipSslVerify
+# 卸载
+dsh plugin --profile web remove dsh-fh-tools
+dev_uninject_plugin dsh-fh-tools
 ```
 
 ## 注意事项
 
-- bundle 的 `dsh.bundle.patch` 引用的包名必须与 `package.json.name` 一致（本插件为 `@dsh-external/dsh-fh-tools`）。
-- 官方还支持 npm 发布后 `dsh plugin add your-package`；当前仓库 private，先走 tarball / git 安装。
-- 主题接入 `packages/client/ui-theme` 属于 DSH client 插件规范（slot/store 纪律），作为 v1.1 后续项，暂以桌面壳主题 + `furrhaven-theme.css` 覆盖层交付。
+- `dsh.bundle.patch` 引用的包名必须与 `package.json.name` 一致（`@dsh-external/dsh-fh-tools`）。
+- 技能内容随插件内置（`skills/furrhaven-card/SKILL.md`），插件加载时注册、dispose 时注销。
+- 官方还支持 npm 发布后 `dsh plugin add <npm-package>`；当前以 GitHub Release tgz 与 git 安装为主。
