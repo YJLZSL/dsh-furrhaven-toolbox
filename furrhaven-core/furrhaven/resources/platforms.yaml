@@ -28,11 +28,13 @@ platforms:
   fc:
     label: FC（FurryChat / chat.furchat.vip）
     artifact: "md 卡 + 8 目录上传资料包"
-    card_limit_bytes: 15000
-    counted_scope: [卡, 开场白, 简介, 回复格式]
+    card_limit_bytes: 40000
+    counted_scope: [卡, 开场白, 简介, 世界书, 回复格式, 正则, 故事线]
     render: 正则脚本渲染 AI 回复
     worldbook: 平台世界书编辑器（两个保存按钮，先删后填五步法）
-    notes: 上传入口 /my-character-groups；正则脚本在资料包 05 目录。
+    notes: >
+      2026-08-16 用户口径修订：FC 上传资料包总限制 40,000 UTF-8 字节
+      （卡+开场白+简介+世界书+回复格式+正则+故事线的总和）。上传入口 /my-character-groups。
 
   fb:
     label: FB

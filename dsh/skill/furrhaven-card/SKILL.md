@@ -57,7 +57,7 @@ fh check --selftest                    # 引擎自检（CI 同款）
 - 字节口径 v3.0（保守）：personality+scenario+world_view+mes_example+response_format+组件 ai_prompt ≤50,000 UTF-8 字节；世界书独立 30,000；first_mes/quick_replies/组件源码不计。
 
 ### FC / FB
-- FC ≤15,000（卡+开场白+简介+回复格式），正则 15 条渲染链，全匹配 wrapper 最后。
+- FC ≤40,000（上传资料包总限：卡+开场白+简介+世界书+回复格式+正则+故事线），正则 15 条渲染链，全匹配 wrapper 最后。
 - FB ≤10,666：跨章节去重→迁共享世界书→零损失删减。
 - 单双星号互斥：`(?<!\*)\*(?!\*)`。
 

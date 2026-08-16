@@ -133,6 +133,13 @@ def test_fd_budget_utf8_bytes():
     assert report.remaining == 47000
 
 
+def test_fc_budget_total_package_limit():
+    card = sample_card()
+    report = compute_budget(card, 'fc', PLATFORMS, [])
+    assert report.limit == 40000  # 2026-08-16 用户口径：资料包总限
+    assert '世界书' in report.fields and '正则' in report.fields
+
+
 def test_fd_budget_worldbook_overflow_counts():
     card = sample_card()
     card.worldbook.append(WorldBookEntry(id=99, keys=["k"], content="字" * 20000))

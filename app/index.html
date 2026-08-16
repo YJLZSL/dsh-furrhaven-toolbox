@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Furrhaven Studio</title>
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <div class="backdrop" aria-hidden="true">
+      <div class="grain"></div>
+      <div class="motes">
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      </div>
+    </div>
+
+    <header class="topbar">
+      <div class="brand">
+        <svg class="emblem" viewBox="0 0 48 48" aria-hidden="true">
+          <defs>
+            <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#e8c87e"/>
+              <stop offset=".5" stop-color="#b8860b"/>
+              <stop offset="1" stop-color="#8a6a1f"/>
+            </linearGradient>
+          </defs>
+          <circle cx="24" cy="24" r="21" fill="none" stroke="url(#gold)" stroke-width="1.6"/>
+          <circle cx="24" cy="24" r="15.5" fill="none" stroke="url(#gold)" stroke-width=".7" opacity=".55"/>
+          <path d="M16 21c0-6 3.5-9.5 8-9.5s8 3.5 8 9.5c0 4-2 6.5-4 7.5-1.2-1.5-2.6-1.6-4-1.6s-2.8.1-4 1.6c-2-1-4-3.5-4-7.5z"
+                fill="url(#gold)" opacity=".95"/>
+          <path d="M24 8.5c2.8 0 4.2 1.4 4.6 3.6-1.4-.9-2.9-1.4-4.6-1.5z" fill="#fff" opacity=".5"/>
+          <path d="M9 33.5c1.6-3.4 4.2-4.8 7.8-4.2M39 33.5c-1.6-3.4-4.2-4.8-7.8-4.2"
+                stroke="url(#gold)" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+          <circle cx="24" cy="27" r="2.2" fill="#f7f1e5"/>
+        </svg>
+        <div class="brand-text">
+          <h1>Furrhaven <em>Studio</em></h1>
+          <p>角色卡多平台写卡工作室</p>
+        </div>
+      </div>
+
+      <div class="project-chip">
+        <span class="seal">印</span>
+        <div class="project-meta">
+          <span id="projectPath" class="project-path">未打开项目</span>
+          <span id="projectName" class="project-name">—</span>
+        </div>
+        <button id="btnPickProject" class="btn btn-ink">打开项目</button>
+      </div>
+
+      <div class="top-actions">
+        <span id="engineBadge" class="engine-badge">fh —</span>
+      </div>
+    </header>
+
+    <div class="shell">
+      <nav class="sidebar" aria-label="主导航">
+        <button class="nav-btn active" data-section="dashboard">
+          <span class="nav-glyph">◇</span>工作台
+        </button>
+        <button class="nav-btn" data-section="editor">
+          <span class="nav-glyph">✎</span>卡编辑
+        </button>
+        <button class="nav-btn" data-section="workshop">
+          <span class="nav-glyph">⚒</span>三工坊
+        </button>
+        <button class="nav-btn" data-section="build">
+          <span class="nav-glyph">⤴</span>构建发布
+        </button>
+        <button class="nav-btn" data-section="play">
+          <span class="nav-glyph">◈</span>扮演试玩
+        </button>
+        <button class="nav-btn" data-section="vision">
+          <span class="nav-glyph">◉</span>识图
+        </button>
+        <button class="nav-btn" data-section="settings">
+          <span class="nav-glyph">⚙</span>设置
+        </button>
+      </nav>
+
+      <main class="content">
+        <section id="dashboard" class="panel active">
+          <div class="panel-head">
+            <div>
+              <h2>工作台</h2>
+              <p class="lede">单一事实源 · 三工坊创作 · 五平台导出 —— 门禁退出码 0 才可交付。</p>
+            </div>
+            <button id="btnRefresh" class="btn btn-gold">刷新</button>
+          </div>
+          <div id="dashboardCards" class="cards-grid"></div>
+          <div id="dashboardEmpty" class="empty-state hidden">
+            <div class="empty-seal">空</div>
+            <p>还没有角色卡。先在终端 <code>fh new &lt;slug&gt;</code>，或打开已有项目。</p>
+          </div>
+          <div class="report-block">
+            <h3>全项目审计</h3>
+            <pre id="auditReport" class="console">尚未打开项目</pre>
+          </div>
+        </section>
+
+        <section id="editor" class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>卡编辑</h2>
+              <p class="lede">模块化 IR 或完整卡单文件，直接编辑单一事实源。</p>
+            </div>
+            <div class="editor-actions">
+              <span id="editorStatus" class="status-text">—</span>
+              <button id="btnSaveFile" class="btn btn-gold">保存</button>
+            </div>
+          </div>
+          <div class="editor-layout">
+            <aside class="file-tree-pane">
+              <label class="field-label">卡片
+                <select id="editorCardSelect" class="select"></select>
+              </label>
+              <label class="field-label">文件</label>
+              <ul id="fileTree" class="file-tree"></ul>
+            </aside>
+            <div class="editor-pane">
+              <div class="editor-pathbar"><span id="editingPath">—</span><span id="dirtyDot" class="dirty-dot hidden"></span></div>
+              <textarea id="editorText" class="editor" spellcheck="false" placeholder="选择左侧文件开始编辑…"></textarea>
+            </div>
+          </div>
+        </section>
+
+        <section id="workshop" class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>三工坊</h2>
+              <p class="lede">世界书触发模拟 · 组件五坑检查 · 正则即时渲染。</p>
+            </div>
+          </div>
+          <div class="workshop-tabs">
+            <button class="ws-tab active" data-ws="wb">世界书</button>
+            <button class="ws-tab" data-ws="comp">组件</button>
+            <button class="ws-tab" data-ws="regex">正则</button>
+          </div>
+
+          <div id="ws-wb" class="ws-pane active">
+            <div class="form-row">
+              <label class="field-label">卡 <select id="wbCard" class="select"></select></label>
+              <label class="field-label grow">样例玩家消息
+                <input id="wbText" class="input" placeholder="例如：我在青澜市下车，夜雨刚停" />
+              </label>
+              <button id="btnWbSim" class="btn btn-gold">触发模拟</button>
+            </div>
+            <pre id="wbOutput" class="console">输入样例消息，看哪些世界书条目会被命中。</pre>
+          </div>
+
+          <div id="ws-comp" class="ws-pane">
+            <div class="form-row">
+              <label class="field-label">卡（可选）<input id="compCard" class="input" placeholder="留空=全部引用组件" /></label>
+              <label class="field-label">组件名（可选）<input id="compName" class="input" placeholder="如 vnHeader" /></label>
+              <button id="btnCompCheck" class="btn btn-gold">检查</button>
+            </div>
+            <pre id="compOutput" class="console">五坑 + 拉长四禁 + node --check 一次跑完。</pre>
+          </div>
+
+          <div id="ws-regex" class="ws-pane">
+            <div class="form-row">
+              <label class="field-label grow">样例 AI 回复
+                <input id="regexText" class="input" placeholder=">你好，*动作*" />
+              </label>
+              <button id="btnRegexTest" class="btn btn-gold">渲染测试</button>
+            </div>
+            <pre id="regexOutput" class="console">按序应用 FC v2.3 规则，即时看渲染结果。</pre>
+          </div>
+        </section>
+
+        <section id="build" class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>构建发布</h2>
+              <p class="lede">IR → FD JSON / FC 8 目录包 / FB md / 酒馆 V2+V3 PNG / RisuAI / 类脑。</p>
+            </div>
+            <button id="btnBuild" class="btn btn-gold">开始构建</button>
+          </div>
+          <div class="platform-grid" id="platformGrid"></div>
+          <label class="field-label">指定卡（可选）<input id="buildCard" class="input" placeholder="留空=全部卡" /></label>
+          <div class="build-stage hidden" id="buildStage"><span class="spinner"></span><span>构建中…</span></div>
+          <pre id="buildOutput" class="console">产物写入 dist/，构建指纹锁同步更新。</pre>
+        </section>
+
+        <section id="play" class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>扮演试玩</h2>
+              <p class="lede">用卡体 + 常驻世界书组装 prompt，世界书 keys 按轮触发。</p>
+            </div>
+          </div>
+          <div class="form-row">
+            <label class="field-label">卡 <select id="playCard" class="select"></select></label>
+            <label class="field-label grow">这一轮说什么
+              <input id="playSay" class="input" placeholder="你好，初次见面。" />
+            </label>
+            <button id="btnPlay" class="btn btn-gold">发送一轮</button>
+          </div>
+          <div class="chat-bubble hidden" id="playBubble"></div>
+          <pre id="playOutput" class="console">扮演模式依赖 fh.config.yaml 的 play 段（或 FH_LLM_* 环境变量）。</pre>
+        </section>
+
+        <section id="vision" class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>识图</h2>
+              <p class="lede">读立绘/参考图 → 外貌描述；读平台截图 → UI 排查线索。</p>
+            </div>
+          </div>
+          <div class="form-row">
+            <label class="field-label grow">图片路径 <input id="visionImage" class="input" placeholder="D:\...\assets\立绘.png" /></label>
+            <label class="field-label">模式
+              <select id="visionMode" class="select">
+                <option value="character">character · 外貌描述</option>
+                <option value="ui">ui · 平台截图排查</option>
+              </select>
+            </label>
+            <label class="field-label">写入卡（可选）<input id="visionCard" class="input" placeholder="slug" /></label>
+            <button id="btnVision" class="btn btn-gold">识图</button>
+          </div>
+          <pre id="visionOutput" class="console">识图模式依赖 fh.config.yaml 的 vision 段（或 FH_LLM_* 环境变量）。</pre>
+        </section>
+
+        <section id="settings" class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>设置</h2>
+              <p class="lede">直接编辑 fh.config.yaml：平台开关 / 规则包 / 模型接口。</p>
+            </div>
+            <button id="btnSaveConfig" class="btn btn-gold">保存配置</button>
+          </div>
+          <pre id="configStatus" class="status-text">—</pre>
+          <textarea id="configEditor" class="editor config-editor" spellcheck="false"></textarea>
+        </section>
+      </main>
+    </div>
+
+    <footer class="statusbar">
+      <span id="statusLeft">就绪</span>
+      <span class="status-sep">·</span>
+      <span>FD 单组件 ≤20,000 · FC 资料包总限 ≤40,000 · FB ≤10,666</span>
+      <span class="status-sep">·</span>
+      <span>v0.1.0</span>
+    </footer>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

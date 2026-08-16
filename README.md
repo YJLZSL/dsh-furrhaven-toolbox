@@ -16,6 +16,7 @@
 - **扮演模式**：`fh play <slug>` 本机试玩（卡体+常驻世界书组装 prompt，世界书 keys 按轮触发）。
 - **门禁**：`fh check` 退出码协议（0=可交付），构建指纹锁防漂移，`fh check --selftest` CI 同款。
 - **DSH 三件套**：preset `card-forge`（写卡域 react/spec/weak 路由）+ skill `furrhaven-card`（流程纪律）+ plugin `fh-tools`（9 个工具，super-injector 热载已验证）。
+- **桌面端 Furrhaven Studio**（`app/`，Tauri 2）：金箔暖纸工坊主题 GUI——工作台字节动画条、卡编辑、三工坊、构建发布、扮演/识图、设置；正在尝试 Android 端（Tauri mobile 可行性实验）。
 
 ## 快速开始
 
@@ -49,15 +50,27 @@ fh vision .\assets\立绘.png --card 灰野   # 识图模式
 | 平台 | 产物 | 红线（UTF-8 字节） | 状态 |
 |------|------|-------------------|------|
 | FD | `dist/fd/角色卡_{名}_V3.json` | 卡 50,000；世界书 30,000；组件 source 20,000 | ✅ 可导出（口径 v3.0） |
-| FC | `dist/fc/{slug}-fc-pack/`（8 目录） | 15,000 | ✅ 可导出 |
+| FC | `dist/fc/{slug}-fc-pack/`（8 目录） | 40,000（资料包总限，2026-08-16 口径修订） | ✅ 可导出 |
 | FB | `dist/fb/{名}.md` | 10,666 | ✅ 可导出 |
 | **SillyTavern 酒馆本体** | `dist/st/{slug}.v2.png` + `.v3.png` + `.regex.json` | 无硬限 | ✅ V2/V3 PNG |
 | RisuAI / 类脑 | `dist/{risu,leinao}/{slug}.v3.json` | 无硬限 | ✅ V3 |
+
+## 桌面端 Furrhaven Studio
+
+```powershell
+cd app
+npm install
+npm run tauri dev       # 开发调试
+npm run tauri build     # 产出 NSIS 安装包（src-tauri\target\release\furrhaven-studio.exe）
+```
+
+同一套前端正在做 Android 可行性实验（`npx tauri android init && npx tauri android build --apk --debug`，需要 Android SDK/NDK + rust android targets）。
 
 ## 目录
 
 ```
 furrhaven-core/      L1 纯 Python 引擎（fh CLI，pytest）
+app/                 L3 GUI：Furrhaven Studio（Tauri 2 桌面端 + Android 实验）
 dsh/
   preset/card-forge/ L2 preset（写卡域任务路由 + persona）
   skill/furrhaven-card/SKILL.md

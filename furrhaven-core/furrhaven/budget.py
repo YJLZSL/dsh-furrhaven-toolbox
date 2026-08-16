@@ -77,12 +77,19 @@ def _fd_budget(card: Card, components: list[Component], limits: dict[str, Any]) 
 
 def _simple_budget(card: Card, platform: str, limits: dict[str, Any]) -> BudgetReport:
     limit = int(limits.get("card_limit_bytes", 0) or 0)
-    # FC：卡+开场白+简介+回复格式；FB：整卡 md
+    # FC：上传资料包总限（卡+开场白+简介+世界书+回复格式+正则+故事线）
     if platform == "fc":
-        from .exporters import fc_markdown
-        used = utf8_len(fc_markdown(card)) + utf8_len(card.first_mes) + utf8_len(card.description) + utf8_len(card.response_format)
-        fields = {"卡md": utf8_len(fc_markdown(card)), "first_mes": utf8_len(card.first_mes),
-                  "description": utf8_len(card.description), "response_format": utf8_len(card.response_format)}
+        from .exporters import fc_markdown, fc_regex_markdown, _fc_worldbook_md
+        fields = {
+            "卡md": utf8_len(fc_markdown(card)),
+            "first_mes": utf8_len(card.first_mes),
+            "description": utf8_len(card.description),
+            "世界书": utf8_len(_fc_worldbook_md(card)),
+            "response_format": utf8_len(card.response_format),
+            "正则": utf8_len(fc_regex_markdown(card)),
+            "故事线": utf8_len(f"{card.title or card.name}\n"),
+        }
+        used = sum(fields.values())
     else:
         from .exporters import fb_markdown
         used = utf8_len(fb_markdown(card))
