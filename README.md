@@ -1,6 +1,6 @@
 # Furrhaven · 角色卡多平台写卡工具箱
 
-> 版本：v1.0.0（稳定大版本） | 2026-08-16
+> 版本：v1.1.0（稳定大版本 + 桌面安装器/自动更新） | 2026-08-16
 > 定位：**全类型角色卡创作工具箱**（兽人创作出身、不限题材）—— Python 核心引擎 + DeepSeek-Harness 官方框架 fork（dsh-furrhaven），加入 dsh 生态。
 
 ## 已实现能力（v1.0.0）
@@ -73,7 +73,7 @@ dsh-framework\furrhaven\theme                  # 金箔暖纸主题覆盖层
 cd desktop
 npm install
 npx electron-builder --win nsis
-# 产物：desktop/dist/Furrhaven-Studio-Setup-1.0.0.exe（自动更新指向 dsh-furrhaven-toolbox Releases）
+# 产物：desktop/dist/Furrhaven-Studio-Setup-1.1.0.exe（自动更新指向 dsh-furrhaven-toolbox Releases）
 ```
 
 独立 Tauri 原型已归档 `prototypes/tauri-studio/`（主题/动画规范与 Android 实验记录保留）。

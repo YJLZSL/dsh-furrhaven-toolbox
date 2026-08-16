@@ -1,7 +1,7 @@
 {
   "name": "dsh-furrhaven-desktop",
   "productName": "Furrhaven Studio",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Furrhaven Studio desktop shell — Electron wrapper around DeepSeek Harness web UI, with dsh-furrhaven theme/font modes and auto-update.",
   "author": "Furrhaven",
   "license": "MIT",
@@ -43,7 +43,7 @@
           "arch": ["x64"]
         }
       ],
-      "icon": "build/icon.ico"
+      "icon": "build/icon.png"
     },
     "nsis": {
       "oneClick": false,

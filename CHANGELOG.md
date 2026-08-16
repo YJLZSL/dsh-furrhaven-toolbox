@@ -2,6 +2,24 @@
 
 所有值得注意的变更记录于此。版本号遵循 semver；平台口径 / IR schema 破坏性变更会 bump minor 并提供迁移说明。
 
+## [1.1.0] - 2026-08-16
+
+### Added
+
+- **Furrhaven Studio 桌面安装器**（`desktop/`，基于 DeepSeek-Harness-Desktop Electron 壳魔改）：
+  - NSIS 安装程序 `Furrhaven-Studio-Setup-1.1.0.exe`（非压缩包，94MB）
+  - 自动更新指向 `YJLZSL/dsh-furrhaven-toolbox` Releases（检测新版 Setup exe 并下载安装）
+  - 新增「金箔暖纸」主题家族（furrhaven）与字体模式变量（衬线/等宽），Boot 页品牌化
+  - 新图标（深褐金箔印章 + 兽爪 F），已生成 PNG/ICO
+  - 运行时优先复用官方 DeepSeek-Harness-Desktop 已解压运行时，无则提示归档
+- **DSH 生态落实**：`dsh-fh-tools` 升级为 bundle（`dsh.bundle.patch` + `cordis.patch.yml`），可用 `dsh plugin --profile web add <tgz>` 安装；`docs/07-dsh生态接入.md` 记录官方验证方法与仓库/包命名。
+- 版本统一 1.1.0（引擎/插件/preset/desktop）。
+
+### Verified
+
+- `pytest` 21/21；`fh check --selftest` 10/10；preset node --test 7/7。
+- `electron-builder --win nsis` 成功产出安装器 + blockmap；`win-unpacked\Furrhaven Studio.exe` 可启动（复用本机官方运行时路径已加 fallback）。
+
 ## [1.0.0] - 2026-08-16（稳定大版本）
 
 ### Changed
